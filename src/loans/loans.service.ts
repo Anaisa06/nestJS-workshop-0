@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLoanDto } from './dto/create-loan.dto';
+import { HttpErrorFilter } from 'src/common/filters/http-exception.filter';
 
 @Injectable()
 export class LoansService {
@@ -13,6 +14,7 @@ export class LoansService {
 
   createLoan(createLoanDto: CreateLoanDto): string {
     const risk: string = this.calculateLoanRisk(createLoanDto.userId);
+    if(risk === 'High Risk') throw new HttpErrorFilter();
     console.log('Creating loan...');
     return 'Loan created';
   }
